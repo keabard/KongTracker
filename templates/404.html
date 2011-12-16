@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Whoops !{% endblock %}
+
+{% block content_title %}
+    Whoops !
+{% endblock %}
+
+{% block content %}
+<img src="{{ MEDIA_URL }}img/falling_man-rev.jpg" height="20%" width="20%" ></img><br /><br />
+    You've just slipped on a banana peal =[ <br /><br />
+    <a href="{% url kongtracker_index %}"><<< Go back to KongTracker</a>
+{% endblock %}

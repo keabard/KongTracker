@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Unilluminated   
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20100704
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>KongTracker - {% block title %}{% endblock %}</title>
+<link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" type="text/css" media="screen" />
+<link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico">
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="{% url kongtracker_index %}">KongTracker</a></h1>
+			<p>Tracking kongs since 2010...</p>
+		</div>
+		<div id="search">
+			<form method="GET" action="{% url search_kongs %}">
+				<fieldset>
+                    {{ search_form.search_text }}
+                    {{ search_form.search_type }}
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<!-- end #header -->
+	<div id="menu">
+        {% block menu %}
+        <ul>
+            {% for forum_section in forum_sections %}
+                <li><a {% if current_forum_section == forum_section %}class="selected" {% endif %}href="{% url section_item forum_section.id %}">{{ forum_section.title }}</a></li>
+            {% endfor %}
+            <li><a style="color:#FFAA00;" href="{% url suggestion %}">KongTracker suggestions</a></li>
+        </ul>
+        {% endblock %}
+	</div>
+    <div style="clear: both;">&nbsp;</div>
+	<!-- end #menu -->
+	<div id="page">
+        <h1>{% block content_title %}{% endblock %}</h1>
+		<div id="page-bgtop">
+			<div id="page-bgbtm">
+				<div id="content">
+                    <div style="clear: both;">&nbsp;</div>
+                        {% block content %}
+                        {% endblock %}
+					<div style="clear: both;">&nbsp;</div>
+				</div>
+				<!-- end #content -->
+				<div style="clear: both;">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+	<!-- end #page -->
+</div>
+<div id="footer">
+    {% block footer %}
+    {% endblock %}
+</div>
+<!-- end #footer -->
+</body>
+</html>

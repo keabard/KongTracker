@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content_title %}
+    Latest {{ nb_posts }} posts...
+{% endblock %}
+
+{% block content %}
+    {% if latest_kong_posts %}
+        <ul class="subsections">
+            <li>
+                <a href="{% url kongtracker_index %}?nb_posts=10">Latest 10 posts...</a>
+            </li>
+            <li>
+                <a href="{% url kongtracker_index %}?nb_posts=25">Latest 25 posts...</a>
+            <li>
+                <a href="{% url kongtracker_index %}?nb_posts=50">Latest 50 posts...</a>
+            </li>
+        </ul>
+        <table class="konglist">
+            <thead>
+                <th>Section</th>
+                <th>Thread</th>
+                <th>Author</th>
+                <th>Date</th>
+            </thead>
+            <tbody>
+                {% for kong_post in latest_kong_posts %}
+                    <tr>
+                        <td style="text-align:center;">{{ kong_post.kong_thread.content_object.title }}</td>
+                        <td style="text-align:center;"><a href="{% url thread_item kong_post.kong_thread.id %}">{{ kong_post.kong_thread.title|safe }}</a></td>
+                        <td style="text-align:center;">{{ kong_post.author  }}</td>
+                        <td style="font-size:12px;text-align:center;">{{ kong_post.date|date:'Y-m-d, H:i' }} UTC</td>
+                    </tr>
+                {% endfor %}
+        </table>
+    {% else %}
+        OMG No Kong Post ! =[
+    {% endif %}
+{% endblock %}

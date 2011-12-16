@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ current_subsection.title }} subsection{% endblock %}
+
+{% block content_title %}
+    <a href="{% url section_item current_forum_section.id %}">{{ current_forum_section.title }}</a>
+{% endblock %}
+
+{% block content %}
+{% if subsections %}
+    Subsections : 
+    <ul class="subsections">
+    {% for subsection in subsections %}
+        <li {% if forloop.counter == 1 %}style="display:block;" {% endif %}{% if current_subsection == subsection %}class="selected"{% endif %}>
+            <a href='{% url subsection_item subsection.id %}'>{{ subsection.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% if kong_threads.object_list %}
+<div style="clear: both;">&nbsp;</div>
+<span>
+    {% for nbpage in kong_threads.paginator.page_range %}
+        {% if nbpage == kong_threads.number %}
+            {{ nbpage }}
+        {% else %}
+            <a href="{% url section_item current_forum_section.id %}?page={{ nbpage }}">{{ nbpage }}</a>
+        {% endif %}
+        {% if not forloop.last %} |{% endif %}
+    {% endfor %}
+</span>
+<table class="konglist">
+    <thead>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Num. of posts</th>
+    </thead>
+    <tbody>
+        {% for kong_thread in kong_threads.object_list %}
+            <tr>
+                <td style="font-size : 12px; text-align:center;">{{ kong_thread.last_modified|date:'Y-m-d, H:i' }} UTC</td>
+                <td style="text-align:center;"><a href="{% url thread_item kong_thread.id %}">{{ kong_thread.title|safe }}</a></td>
+                <td style="text-align:center;">{{ kong_thread.kongpost_set.count }}</td>
+            </tr>
+        {% endfor %}
+</table>
+<div style="clear: both;">&nbsp;</div>
+<span>
+    {% for nbpage in kong_threads.paginator.page_range %}
+        {% if nbpage == kong_threads.number %}
+            {{ nbpage }}
+        {% else %}
+            <a href="{% url subsection_item current_subsection.id %}?page={{ nbpage }}">{{ nbpage }}</a>
+        {% endif %}
+        {% if not forloop.last %} |{% endif %}
+    {% endfor %}
+</span>
+{% else %}
+<div style="clear: both;">&nbsp;</div>
+<div class="noresult">
+    <em>No thread for this subsection !</em>
+</div>
+{% endif %}
+{% endblock %}

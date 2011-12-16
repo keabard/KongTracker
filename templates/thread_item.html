@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ current_thread.title }} thread{% endblock %}
+
+{% block content_title %}
+    {{ current_thread.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="kongposts">
+        {% for kong_post in kong_posts %}
+            <table>
+                <tr>
+                    <td class="author">
+                        <img class="s2logo" src="{{ MEDIA_URL }}img/logo_s2games.jpg">
+                        <br />
+                        <br />
+                        <span class="author_name">{{ kong_post.author }}</span>
+                        <br />
+                        <span class="post_date">{{ kong_post.date|date:'Y-m-d, H:i' }} UTC</span>
+                        <a style="color:#FFAA00;" target="_blank" href="{{ kong_post.link }}">Original post</a>
+                    </td>
+                    <td class="message">
+                        {{ kong_post.message|safe }}                        
+                    </td>
+                </tr>
+            </table>
+            <div style="clear: both;">&nbsp;</div>
+            {% if not forloop.last %}
+                <center><img src="{{ MEDIA_URL }}img/divider-rev.jpeg"></center>
+                <div style="clear: both;">&nbsp;</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

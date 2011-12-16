@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Post search - {{ kong_posts.paginator.count }} results found{% endblock %}
+
+{% block content_title %}
+    Post search - {{ kong_posts.paginator.count }} results found
+{% endblock %}
+
+{% block content %}
+    {% if kong_posts.object_list %}
+        <div style="clear: both;">&nbsp;</div>
+        <span>
+            {% for nbpage in kong_posts.paginator.page_range %}
+                {% if nbpage == kong_posts.number %}
+                    {{ nbpage }}
+                {% else %}
+                    <a href="{% url search_kongs %}?page={{ nbpage }}&search_text={{ search_text }}&search_type={{ search_type }}">{{ nbpage }}</a>
+                {% endif %}
+                {% if not forloop.last %} |{% endif %}
+            {% endfor %}
+        </span>
+        <table class="konglist">
+            <thead>
+                <th>Date</th>
+                <th>Thread title</th>
+                <th>Num. of posts</th>
+            </thead>
+            <tbody>
+                {% for kong_post in kong_posts.object_list %}
+                    <tr>
+                        <td style="font-size : 12px; text-align:center;">{{ kong_post.date|date:'Y-m-d, H:i' }} UTC</td>
+                        <td style="text-align:center;"><a href="{% url thread_item kong_post.kong_thread.id %}">{{ kong_post.kong_thread.title }}</a></td>
+                        <td style="text-align:center;">{{ kong_post.kong_thread.kongpost_set.count }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+        <div style="clear: both;">&nbsp;</div>
+        <span>
+            {% for nbpage in kong_posts.paginator.page_range %}
+                {% if nbpage == kong_posts.number %}
+                    {{ nbpage }}
+                {% else %}
+                    <a href="{% url search_kongs %}?page={{ nbpage }}&search_text={{ search_text }}&search_type={{ search_type }}">{{ nbpage }}</a>
+                {% endif %}
+                {% if not forloop.last %} |{% endif %}
+            {% endfor %}
+        </span>
+        {% else %}
+        <div style="clear: both;">&nbsp;</div>
+        <div class="noresult">
+            <em>No thread for this section !</em>
+        </div>
+    {% endif %}
+{% endblock %}

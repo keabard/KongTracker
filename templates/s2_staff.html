@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}S2Games Staff{% endblock %}
+
+{% block content_title %}
+    S2Games Staff
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Picture</th>
+        </thead>
+        <tbody>
+        {% for author in authors %}
+            <tr>
+                <td>{{ author }}</td>
+                <td><img src="{{ MEDIA_URL }}img/s2_staff/{{ author }}.png"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
